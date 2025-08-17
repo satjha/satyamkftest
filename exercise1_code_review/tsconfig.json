@@ -1,7 +1,15 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "types": [
+      "jest",
+      "node",
+      "vite/client"
+    ]
+  },
+  "include": [
+    "src",
+    "jest.setup.ts"
   ]
 }

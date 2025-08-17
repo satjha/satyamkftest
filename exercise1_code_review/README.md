@@ -1,69 +1,52 @@
-# React + TypeScript + Vite
+## Minimal Vite + React + TypeScript app with tests.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+- exercise1_code_review
 
-Currently, two official plugins are available:
+## Quick commands
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+Install: npm install
+Dev server: npm run dev
+Build: npm run build
+Preview build: npm run preview
+Tests: npm test
+Coverage: npm test -- --coverage
+Notes
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Set runtime API in .env: VITE_API_URL=https://api.example.com
+Use import.meta.env.VITE_API_URL in browser code (not process.env).
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+---
+
+## Code review note
+
+---
+## Potential issues(bug)
+-If the user is leaving the page, it leaves the page, it can trigger a memory leak or warning.
+-Failing API calls or network issues leave the user hanging - nothing has been shown.
+-Using any use in the typescript can hide types of mistakes.
+-Hard-coded API URL app makes less flexible in the atmosphere.
+
+## Suggestions for Readability
+-Keep a separate position for loading and errors.
+-Comment on side effects like API calls.
+-Define appropriate typescript types for user objects.
+-Show users a friendly error message with an option to retry.
+
+---
+## Performance & Best Practices
+-Cancel fetches on unmount using AbortController.
+-Leave React.FC until you need it for children.
+-Consider transferring the logic that brought into a useful hook to reuse it.
+
+---
+## Testing
+-Always mock - don't rely on real API calls.
+-Test loading, success and error states.
+-Ensure that the API is called with the right parameters and the loading disappears after bringing the data.
+
+---
+## Security
+- Do not show raw errors to users; Log in for developers only.
+---
